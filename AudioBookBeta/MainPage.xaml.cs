@@ -110,8 +110,16 @@ namespace AudioBookBeta
 
         private void bookPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.player.selectedBookIndex = bookPicker.SelectedIndex;
-            try 
+             bookSelectionChange(bookPicker.SelectedIndex);
+             App.player.selectedBook.saveSelected(); /* selection changed, save to XML file */
+
+        }
+
+
+        private void bookSelectionChange(int selectedIndex)
+        {
+            App.player.selectedBookIndex = selectedIndex;
+            try
             {
                 BackgroundAudioPlayer.Instance.Pause();
                 BackgroundAudioPlayer.Instance.Track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
@@ -123,9 +131,8 @@ namespace AudioBookBeta
             }
             catch (Exception error)
             {
-                
+
             }
-            
             updateUI();
         }
 
@@ -185,15 +192,32 @@ namespace AudioBookBeta
                 try {
                     IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
                     xml = XDocument.Load(isoStream);
+
                     for (int j = 0; j < xml.Element("Books").Elements("Book").Count(); j++) {
+                        
                         App.player.books.Add(new Book(xml.Element("Books").Elements("Book").ElementAt(j).Attribute("title").Value, 
                             xml.Element("Books").Elements("Book").ElementAt(j).Attribute("author").Value,
                             Convert.ToInt32(xml.Element("Books").Elements("Book").ElementAt(j).Attribute("current_position").Value),
                             false));
+                        
                         for (int i = 0; i < xml.Element("Books").Elements("Book").ElementAt(j).Elements("File").Count(); i++) { 
                             App.player.books.Last().addFile(xml.Element("Books").Elements("Book").ElementAt(j).Elements("File").ElementAt(i).Value, false);
                         }
+                    
                     }
+
+                    // Get the last selected book
+                    String selectedBookTitle = xml.Element("Books").Attribute("select").Value;
+                    if (selectedBookTitle != null)
+                    {
+                        //Search through books
+                        for (int i = 0; i < App.player.books.Count(); i++)
+                        {
+                            // If find matching title, select that book
+                            if (App.player.books.ElementAt(i).BookTitle == selectedBookTitle) bookSelectionChange(i);
+                        }
+                    }
+
                     isoStream.Close();
                 } catch (Exception e) {}
             }
