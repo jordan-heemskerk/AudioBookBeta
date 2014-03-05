@@ -202,7 +202,7 @@ namespace AudioBookPlaybackAgent
             }
 
         }
-        CLSCompliantAttribute
+
         /// <summary>
         /// Called when the agent request is getting cancelled
         /// </summary>
