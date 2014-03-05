@@ -192,16 +192,20 @@ namespace AudioBookBeta
                 try {
                     IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
                     xml = XDocument.Load(isoStream);
+                    IEnumerable<XElement> books = xml.Element("Books").Elements("Book");
+                    for (int j = 0; j < books.Count(); j++) {
+                        // Create new book object from XML
+                        Book newBook = new Book(books.ElementAt(j).Attribute("title").Value,
+                            books.ElementAt(j).Attribute("author").Value,
+                            Convert.ToInt32(books.ElementAt(j).Attribute("current_position").Value),
+                            false // Not a new book
+                            );
+                        App.player.books.Add(newBook);
 
-                    for (int j = 0; j < xml.Element("Books").Elements("Book").Count(); j++) {
-                        
-                        App.player.books.Add(new Book(xml.Element("Books").Elements("Book").ElementAt(j).Attribute("title").Value, 
-                            xml.Element("Books").Elements("Book").ElementAt(j).Attribute("author").Value,
-                            Convert.ToInt32(xml.Element("Books").Elements("Book").ElementAt(j).Attribute("current_position").Value),
-                            false));
-                        
-                        for (int i = 0; i < xml.Element("Books").Elements("Book").ElementAt(j).Elements("File").Count(); i++) { 
-                            App.player.books.Last().addFile(xml.Element("Books").Elements("Book").ElementAt(j).Elements("File").ElementAt(i).Value, false);
+                        //Load books files
+                        IEnumerable<XElement>  bookFiles = books.ElementAt(j).Elements("File");
+                        for (int i = 0; i < bookFiles.Count(); i++) {
+                            App.player.books.Last().addFile(bookFiles.ElementAt(i).Value, false); // Not a new book
                         }
                     
                     }

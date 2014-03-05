@@ -2,76 +2,11 @@
 using System.Diagnostics;
 using System.Windows;
 using Microsoft.Phone.BackgroundAudio;
-using System.Collections.Generic;
-
 
 namespace AudioBookPlaybackAgent
 {
     public class AudioPlayer : AudioPlayerAgent
     {
-        static int currentTrackNumber = 0;
-
-        // A playlist made up of AudioTrack items.
-        private static List<AudioTrack> _playList = new List<AudioTrack>
-{
-    new AudioTrack(new Uri("Kalimba.mp3", UriKind.Relative), 
-                    "Kalimba", 
-                    "Mr. Scruff", 
-                    "Ninja Tuna", 
-                    null),
-
-    new AudioTrack(new Uri("Maid with the Flaxen Hair.mp3", UriKind.Relative), 
-                    "Maid with the Flaxen Hair", 
-                    "Richard Stoltzman", 
-                    "Fine Music, Vol. 1", 
-                    null),
-
-    new AudioTrack(new Uri("Sleep Away.mp3", UriKind.Relative), 
-                    "Sleep Away", 
-                    "Bob Acri", 
-                    "Bob Acri", 
-                    null),
-
-    // A remote URI
-    new AudioTrack(new Uri("http://traffic.libsyn.com/wpradio/WPRadio_29.mp3", UriKind.Absolute), 
-                    "Episode 29", 
-                    "Windows Phone Radio", 
-                    "Windows Phone Radio Podcast", 
-                    null)
-};
-
-        private void PlayNextTrack(BackgroundAudioPlayer player)
-        {
-            if (++currentTrackNumber >= _playList.Count)
-            {
-                currentTrackNumber = 0;
-            }
-
-            PlayTrack(player);
-        }
-
-        private void PlayPreviousTrack(BackgroundAudioPlayer player)
-        {
-            if (--currentTrackNumber < 0)
-            {
-                currentTrackNumber = _playList.Count - 1;
-            }
-
-            PlayTrack(player);
-        }
-
-        private void PlayTrack(BackgroundAudioPlayer player)
-        {
-          
-
-            // Play it
-            if ((player.Track != null) && (player.PlayerState != PlayState.Playing))
-            {
-                player.Play();
-            }
-        }
-
-
         /// <remarks>
         /// AudioPlayer instances can share the same process.
         /// Static fields can be used to share state between AudioPlayer instances
@@ -120,7 +55,7 @@ namespace AudioBookPlaybackAgent
                     player.Track = GetPreviousTrack();
                     break;
                 case PlayState.TrackReady:
-                    player.Play();
+                   // player.Play();
                     break;
                 case PlayState.Shutdown:
                     // TODO: Handle the shutdown state here (e.g. save state)
@@ -141,15 +76,6 @@ namespace AudioBookPlaybackAgent
                     break;
                 case PlayState.FastForwarding:
                     break;
-            }
-
-            switch (playState)
-            {
-                case PlayState.TrackEnded:
-                    PlayNextTrack(player);
-                    break;
-
-                // Handle other PlayState changes here
             }
 
             NotifyComplete();
@@ -204,25 +130,6 @@ namespace AudioBookPlaybackAgent
                     {
                         player.Track = previousTrack;
                     }
-                    break;
-            }
-
-            switch (action)
-            {
-                case UserAction.Play:
-                    PlayTrack(player);
-                    break;
-
-                case UserAction.Pause:
-                    player.Pause();
-                    break;
-
-                case UserAction.SkipPrevious:
-                    PlayPreviousTrack(player);
-                    break;
-
-                case UserAction.SkipNext:
-                    PlayNextTrack(player);
                     break;
             }
 
