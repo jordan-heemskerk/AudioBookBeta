@@ -38,7 +38,7 @@ namespace AudioBookBeta
                 //@FIXME: add error
             }
 
-            App.player.books.Add(new Book(book_title, book_author));
+            App.player.books.Add(new Book(book_title, book_author, 0, true));
 
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }

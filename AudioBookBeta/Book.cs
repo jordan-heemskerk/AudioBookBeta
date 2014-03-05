@@ -15,6 +15,7 @@ namespace AudioBookBeta
     {
         private String _BookTitle;
         private String _Author;
+        private int position;
 
         public List<string> files;
 
@@ -51,7 +52,7 @@ namespace AudioBookBeta
             }
         }
 
-      
+
 
         public void NotifyPropertyChanged(string propertyName)
         {
@@ -68,16 +69,73 @@ namespace AudioBookBeta
             Author = "";
         }
 
-        public Book(string title, string author) {
+        public int getPosition() { return position; }
+
+        public void setPosition(int pos) {
+            Boolean writeBack = false;
+            if (Math.Abs(pos - position) > 5) writeBack = true;
+            position = pos;
+            if (writeBack)
+            {
+                XDocument xml;
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore))
+                    {
+                        xml = XDocument.Load(isoStream);
+                        XElement books = xml.Element("Books");
+                        for (int i = 0; i < books.Elements("Book").Count(); i++)
+                        {
+                            if (books.Elements("Book").ElementAt(i).Attribute("title").Value == BookTitle)
+                                books.Elements("Book").ElementAt(i).SetAttributeValue("current_position", pos);
+                        }
+                    }
+                }
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    using (IsolatedStorageFileStream isoStream =
+                        new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
+                    {
+                        xml.Save(isoStream);
+                    }
+                }
+            }
+        }
+
+        public Book(string title, string author, int pos, Boolean newBook) {
             Author = author;
             BookTitle = title;
+            position = pos;
             files = new List<string>();
+            if (!newBook) return;
 
-            XDocument xml = new XDocument();
+            
             var root = new XElement("Book");
-            root.SetAttributeValue("current_position", "0");
-            xml.Add(root);
+            root.SetAttributeValue("current_position", pos);
+            root.SetAttributeValue("title", BookTitle);
+            root.SetAttributeValue("author", Author);
+      
+            XDocument xml;
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                try
+                {
+                    IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
 
+                    xml = XDocument.Load(isoStream);
+                    xml.Element("Books").Add(root);
+                    isoStream.Close();
+                }
+                catch (Exception fnf)
+                {
+                    var true_root = new XDocument();
+                    var books = new XElement("Books");
+                    books.Add(root);
+                    true_root.Add(books);
+                        
+                    xml = true_root;
+                }
+            }
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 using (IsolatedStorageFileStream isoStream =
@@ -88,7 +146,7 @@ namespace AudioBookBeta
             }
         }
 
-        public void addFile (string filename) 
+        public void addFile (string filename, Boolean newFile) 
         {
             if (files == null)
             {
@@ -102,13 +160,18 @@ namespace AudioBookBeta
                 return;
             }
             files.Add(filename);
+            if (!newFile) return;
             XDocument xml;
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore))
                 {
                     xml = XDocument.Load(isoStream);
-                    xml.Element("Book").Add(new XElement("File", filename));
+                    XElement books = xml.Element("Books");
+                    for (int i = 0; i < books.Elements("Book").Count(); i++) {
+                        if (books.Elements("Book").ElementAt(i).Attribute("title").Value == BookTitle)
+                            books.Elements("Book").ElementAt(i).Add(new XElement("File", filename));
+                    }
                 }
             }
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())

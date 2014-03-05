@@ -125,7 +125,7 @@ namespace AudioBookBeta
                         }
 
                         
-                        App.player.selectedBook.addFile(transfer.Tag);
+                        App.player.selectedBook.addFile(transfer.Tag, true);
 
                     }
                     else
