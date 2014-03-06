@@ -102,6 +102,36 @@ namespace AudioBookBeta
             }
         }
 
+        /* Saves this book as the selected book in the manifest.xml file */
+        public void saveSelected()
+        {
+            XDocument xml;
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                try
+                {
+                    IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
+
+                    xml = XDocument.Load(isoStream);
+                    xml.Element("Books").Attribute("select").Value = this.BookTitle;
+                    isoStream.Close();
+                }
+                catch (Exception fnf)
+                {
+                    System.Diagnostics.Debug.WriteLine("File not found while trying to update selected book");
+                    return;
+                }
+            }
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isoStream =
+                    new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
+                {
+                    xml.Save(isoStream);
+                }
+            }
+        }
+
         public Book(string title, string author, int pos, Boolean newBook) {
             Author = author;
             BookTitle = title;

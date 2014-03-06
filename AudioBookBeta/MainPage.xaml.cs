@@ -37,15 +37,6 @@ namespace AudioBookBeta
             PositionSlider.ManipulationCompleted += new EventHandler<System.Windows.Input.ManipulationCompletedEventArgs>(PosSliderUp);
             PositionSlider.ManipulationDelta += new EventHandler<System.Windows.Input.ManipulationDeltaEventArgs>(PosSliderDelta);
 
-
-            foreach (var i in App.player.books)
-            {
-                if (i.BookTitle == "Select a book...") found = true;
-            }
-            if (!found && App.player.books.Count == 0)
-            {
-                App.player.books.Insert(0, new Book("Select a book..."));
-            }
             this.bookPicker.ItemsSource = App.player.books;
 
             loadXmlData();
@@ -110,8 +101,17 @@ namespace AudioBookBeta
 
         private void bookPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.player.selectedBookIndex = bookPicker.SelectedIndex;
-            try 
+            bookSelectionChange(bookPicker.SelectedIndex);
+            if (App.player.selectedBook != null) App.player.selectedBook.saveSelected(); /* selection changed, save to XML file */
+
+        }
+
+
+        private void bookSelectionChange(int selectedIndex)
+        {
+            App.player.selectedBookIndex = selectedIndex;
+            bookPicker.SelectedIndex = selectedIndex;
+            try
             {
                 BackgroundAudioPlayer.Instance.Pause();
                 BackgroundAudioPlayer.Instance.Track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
@@ -123,9 +123,8 @@ namespace AudioBookBeta
             }
             catch (Exception error)
             {
-                
+
             }
-            
             updateUI();
         }
 
@@ -200,9 +199,25 @@ namespace AudioBookBeta
                         for (int i = 0; i < bookFiles.Count(); i++) {
                             App.player.books.Last().addFile(bookFiles.ElementAt(i).Value, false); // Not a new book
                         }
+                    
                     }
+
+                    // Get the last selected book
+                    String selectedBookTitle = xml.Element("Books").Attribute("select").Value;
+                    if (selectedBookTitle != null)
+                    {
+                        //Search through books
+                        for (int i = 0; i < App.player.books.Count(); i++)
+                        {
+                            // If find matching title, select that book
+                            if (App.player.books.ElementAt(i).BookTitle == selectedBookTitle) bookSelectionChange(i);
+                        }
+                    }
+
                     isoStream.Close();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    System.Diagnostics.Debug.WriteLine("Error loading XML file");
+                }
             }
         }
 
