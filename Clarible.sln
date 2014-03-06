@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioBookBeta", "AudioBookBeta\AudioBookBeta.csproj", "{8D7905AD-9EA3-40D2-9325-CBE42402D19E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clarible", "AudioBookBeta\Clarible.csproj", "{8D7905AD-9EA3-40D2-9325-CBE42402D19E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioBookPlaybackAgent", "AudioBookPlaybackAgent\AudioBookPlaybackAgent.csproj", "{D07111EA-C66E-41A7-BE2F-E53F23DE8C3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClariblePlaybackAgent", "AudioBookPlaybackAgent\ClariblePlaybackAgent.csproj", "{D07111EA-C66E-41A7-BE2F-E53F23DE8C3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

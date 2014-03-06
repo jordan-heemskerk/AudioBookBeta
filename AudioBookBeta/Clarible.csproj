@@ -104,6 +104,9 @@
       <DependentUpon>NewBookPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Option.cs" />
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pause.cs" />
     <Compile Include="Play.cs" />
     <Compile Include="Player.cs" />
@@ -134,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewBookPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,9 +232,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AudioBookPlaybackAgent\AudioBookPlaybackAgent.csproj">
+    <ProjectReference Include="..\AudioBookPlaybackAgent\ClariblePlaybackAgent.csproj">
       <Project>{D07111EA-C66E-41A7-BE2F-E53F23DE8C3A}</Project>
-      <Name>AudioBookPlaybackAgent</Name>
+      <Name>ClariblePlaybackAgent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

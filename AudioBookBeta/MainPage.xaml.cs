@@ -99,6 +99,11 @@ namespace AudioBookBeta
             NavigationService.Navigate(new Uri("/LoadFile.xaml", UriKind.Relative));
         }
 
+        private void AboutApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
+        }
+
         private void bookPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bookSelectionChange(bookPicker.SelectedIndex);
@@ -113,7 +118,12 @@ namespace AudioBookBeta
             bookPicker.SelectedIndex = selectedIndex;
             try
             {
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    if (!isoStore.FileExists(App.player.selectedBook.files.First())) return;
+                }
                 BackgroundAudioPlayer.Instance.Pause();
+                
                 BackgroundAudioPlayer.Instance.Track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
                     App.player.selectedBook.BookTitle, App.player.selectedBook.Author, "", null);
                 BackgroundAudioPlayer.Instance.Position = new TimeSpan(0, 0, App.player.selectedBook.getPosition());
