@@ -36,7 +36,7 @@
             <TextBox HorizontalAlignment="Left" Height="72" Margin="0,42,0,0" TextWrapping="Wrap" Text="URL&#xD;&#xA;URL" VerticalAlignment="Top" Width="456"/>
             <Button Content="Add" HorizontalAlignment="Left" Margin="0,113,0,0" VerticalAlignment="Top" Width="456"/>
 -->
-            <TextBlock Text="Note: Files will be ordered alphabetically, regardless of what order they are added. The ability to re-organize files will be present in a later release." TextWrapping="Wrap" Margin="10,-22,40,518" LineHeight="16"/>
+            <TextBlock Text="Note: Only one file can be associated to one book. In the case that you associate more than one file with a single book, the first will be used. The ability to use multiple files will be present in a later release." TextWrapping="Wrap" Margin="10,-22,40,518" LineHeight="16"/>
             <TextBlock x:Name="LoadForTextBlock" Text="Loading for " Margin="12,100,-12,473" />
             <TextBox HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="http://" VerticalAlignment="Top" Width="456" Name="UrlTextBox" Margin="0,134,0,0" />
             <Button Content="Add" HorizontalAlignment="Left" Margin="0,194,0,0" VerticalAlignment="Top" Width="456" Click="addButton_Click"/>

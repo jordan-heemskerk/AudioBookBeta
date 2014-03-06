@@ -99,7 +99,7 @@
                 </toolkit:ListPicker.ItemTemplate>
                 <toolkit:ListPicker.FullModeItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding BookTitle}" />
+                        <TextBlock Text="{Binding BookTitle}" FontSize="48"/>
                     </DataTemplate>
                 </toolkit:ListPicker.FullModeItemTemplate>
             </toolkit:ListPicker>
@@ -108,13 +108,13 @@
 
             <Button x:Name="PreviousButton" Content="Skip Back" HorizontalAlignment="Left" Margin="0,128,0,0" VerticalAlignment="Top" Height="150" Width="150" Click="PreviousButton_Click"/>
             <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Left" Margin="156,128,0,0" VerticalAlignment="Top" Height="150" Width="150"  Click="playButton_Click"/>
-            <Button x:Name="ForwardButton" Content="Skip Forward" HorizontalAlignment="Left" Margin="306,128,0,0" VerticalAlignment="Top" Height="150" Width="150" Click="ForwardButton_Click"/>
+            <Button x:Name="ForwardButton" Content="Skip On" HorizontalAlignment="Left" Margin="306,128,0,0" VerticalAlignment="Top" Height="150" Width="150" Click="ForwardButton_Click"/>
             <Slider x:Name="PositionSlider" Margin="0,305,0,0" VerticalAlignment="Top"  />
             <TextBlock x:Name="AuthorText" Margin="0,80,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="0.754,1.022" TextAlignment="Center" />
             <TextBlock x:Name="CurrentFileText" HorizontalAlignment="Center" Margin="0,362,10,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="446"/>
             <TextBlock x:Name="CurrentPositionText" HorizontalAlignment="Left" Margin="37,283,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
             <TextBlock x:Name="RemainingTimeText" HorizontalAlignment="Left" Margin="334,283,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="96"/>
-            <UI:AdControl ApplicationId="b28f2dfc-f2f2-4c3a-9e16-1e534bab8b34" AdUnitId="164578" HorizontalAlignment="Left" Height="80" Margin="-12,445,-12,0" VerticalAlignment="Top" Width="480"/>
+            <UI:AdControl ApplicationId="bad46e80-696e-480a-a097-be0577156459" AdUnitId="164581" HorizontalAlignment="Left" Height="80" Margin="-12,445,-12,0" VerticalAlignment="Top" Width="480"/>
         </Grid>
 
     </Grid>
