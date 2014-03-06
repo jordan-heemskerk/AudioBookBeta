@@ -16,12 +16,7 @@ namespace AudioBookBeta
         private int _selectedBookIndex = -1;
         public int selectedBookIndex {
             get {
-                if (_selectedBookIndex > -1) 
-                {
-                    return _selectedBookIndex;
-                } else {
-                    throw new IndexOutOfRangeException();
-                }
+                return _selectedBookIndex;
             }
             set {
                 _selectedBookIndex = value;
@@ -33,7 +28,14 @@ namespace AudioBookBeta
 
         public Book selectedBook {
             get {
-                return books.ElementAt(selectedBookIndex);
+                if (selectedBookIndex > -1)
+                {
+                    return books.ElementAt(selectedBookIndex);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

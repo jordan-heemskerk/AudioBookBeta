@@ -37,15 +37,6 @@ namespace AudioBookBeta
             PositionSlider.ManipulationCompleted += new EventHandler<System.Windows.Input.ManipulationCompletedEventArgs>(PosSliderUp);
             PositionSlider.ManipulationDelta += new EventHandler<System.Windows.Input.ManipulationDeltaEventArgs>(PosSliderDelta);
 
-
-            foreach (var i in App.player.books)
-            {
-                if (i.BookTitle == "Select a book...") found = true;
-            }
-            if (!found && App.player.books.Count == 0)
-            {
-                App.player.books.Insert(0, new Book("Select a book..."));
-            }
             this.bookPicker.ItemsSource = App.player.books;
 
             loadXmlData();
@@ -110,8 +101,8 @@ namespace AudioBookBeta
 
         private void bookPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-             bookSelectionChange(bookPicker.SelectedIndex);
-             App.player.selectedBook.saveSelected(); /* selection changed, save to XML file */
+            bookSelectionChange(bookPicker.SelectedIndex);
+            if (App.player.selectedBook != null) App.player.selectedBook.saveSelected(); /* selection changed, save to XML file */
 
         }
 
@@ -119,6 +110,7 @@ namespace AudioBookBeta
         private void bookSelectionChange(int selectedIndex)
         {
             App.player.selectedBookIndex = selectedIndex;
+            bookPicker.SelectedIndex = selectedIndex;
             try
             {
                 BackgroundAudioPlayer.Instance.Pause();
