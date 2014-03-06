@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{8d7905ad-9ea3-40d2-9325-cbe42402d19e}" Title="AudioBookBeta" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="AudioBookBeta author" Description="Sample description" Publisher="AudioBookBeta" PublisherID="{25795d80-4b2a-475d-8f00-f72ca2d5e361}">
+  <App xmlns="" ProductID="{8d7905ad-9ea3-40d2-9325-cbe42402d19e}" Title="Clarible" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="AudioBookBeta author" Description="Sample description" Publisher="AudioBookBeta" PublisherID="{25795d80-4b2a-475d-8f00-f72ca2d5e361}">
     <IconPath IsRelative="true" IsResource="false">speaker-icon-white.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
