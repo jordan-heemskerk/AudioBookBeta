@@ -8,23 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:AudioBookBeta"
+    xmlns:UI="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
     x:Class="AudioBookBeta.MainPage"
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Landscape"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
-
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="About" Click="AboutApplicationBarMenuItem_Click"/>
-            </shell:ApplicationBar.MenuItems>
-            <shell:ApplicationBarIconButton IconUri="/Icons/edit.png" Text="Edit Book" Click="EditBookApplicationBarIconButton_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Icons/add.png" Text="New Book" Click="AddNewBookApplicationBarMenuItem_Click"/>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Name="modulePickerItemTemplate">
@@ -38,6 +26,26 @@
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
+
+    <phone:PhoneApplicationPage.FontFamily>
+        <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+    </phone:PhoneApplicationPage.FontFamily>
+    <phone:PhoneApplicationPage.FontSize>
+        <StaticResource ResourceKey="PhoneFontSizeNormal"/>
+    </phone:PhoneApplicationPage.FontSize>
+    <phone:PhoneApplicationPage.Foreground>
+        <StaticResource ResourceKey="PhoneForegroundBrush"/>
+    </phone:PhoneApplicationPage.Foreground>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="About" Click="AboutApplicationBarMenuItem_Click"/>
+            </shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton IconUri="/Icons/edit.png" Text="Edit Book" Click="EditBookApplicationBarIconButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Icons/add.png" Text="New Book" Click="AddNewBookApplicationBarMenuItem_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -81,7 +89,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Margin="12,151,12,10" Grid.RowSpan="2">
-          
+
 
             <toolkit:ListPicker SelectionChanged="bookPicker_SelectionChanged" x:Name="bookPicker" ExpansionMode="FullScreenOnly" FullModeHeader="Select Book" Margin="0,10,0,388">
                 <toolkit:ListPicker.ItemTemplate>
@@ -102,11 +110,11 @@
             <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Left" Margin="156,128,0,0" VerticalAlignment="Top" Height="150" Width="150"  Click="playButton_Click"/>
             <Button x:Name="ForwardButton" Content="Skip Forward" HorizontalAlignment="Left" Margin="306,128,0,0" VerticalAlignment="Top" Height="150" Width="150" Click="ForwardButton_Click"/>
             <Slider x:Name="PositionSlider" Margin="0,305,0,0" VerticalAlignment="Top"  />
-            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="80" Margin="0,445,0,0" Stroke="Black" VerticalAlignment="Top" Width="456"/>
             <TextBlock x:Name="AuthorText" Margin="0,80,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="0.754,1.022" TextAlignment="Center" />
             <TextBlock x:Name="CurrentFileText" HorizontalAlignment="Center" Margin="0,362,10,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="446"/>
             <TextBlock x:Name="CurrentPositionText" HorizontalAlignment="Left" Margin="37,283,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
             <TextBlock x:Name="RemainingTimeText" HorizontalAlignment="Left" Margin="334,283,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="96"/>
+            <UI:AdControl ApplicationId="b28f2dfc-f2f2-4c3a-9e16-1e534bab8b34" AdUnitId="164578" HorizontalAlignment="Left" Height="80" Margin="-12,445,-12,0" VerticalAlignment="Top" Width="480"/>
         </Grid>
 
     </Grid>
