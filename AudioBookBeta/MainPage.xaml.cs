@@ -223,7 +223,9 @@ namespace AudioBookBeta
                     }
 
                     isoStream.Close();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    System.Diagnostics.Debug.WriteLine("Error loading XML file");
+                }
             }
         }
 
