@@ -16,6 +16,7 @@ using System.IO.IsolatedStorage;
 using System.IO;
 using Windows.System.Threading;
 using System.Windows.Threading;
+using Windows.UI.Popups;
 
 namespace AudioBookBeta
 {
@@ -96,7 +97,15 @@ namespace AudioBookBeta
 
         private void EditBookApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/LoadFile.xaml", UriKind.Relative));
+            if (App.player.selectedBook == null)
+            {
+                //TODO: show error dialog
+            }
+            else
+            {
+                NavigationService.Navigate(new Uri("/LoadFile.xaml", UriKind.Relative));
+            }
+            
         }
 
         private void AboutApplicationBarMenuItem_Click(object sender, EventArgs e)
