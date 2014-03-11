@@ -40,14 +40,14 @@ namespace AudioBookBeta
 
             this.bookPicker.ItemsSource = App.player.books;
 
-            loadXmlData();
+           /* loadXmlData();
 
             timer = new DispatcherTimer { Interval = new TimeSpan(0,0,1) };
             timer.Tick += timer_Tick;
             timer.Start();
 
 
-            updateUI();
+            updateUI();*/
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
@@ -129,6 +129,7 @@ namespace AudioBookBeta
             {
                 using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
                 {
+                    if (App.player.selectedBook.files.Count <= 0) return;
                     if (!isoStore.FileExists(App.player.selectedBook.files.First())) return;
                 }
                 BackgroundAudioPlayer.Instance.Pause();
@@ -196,10 +197,12 @@ namespace AudioBookBeta
 
         private void loadXmlData()
         {
+            
             App.player.books.Clear();
             XDocument xml;
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
+                if (!isoStore.FileExists("manifest.xml")) return; //don't bother if file ain't there
                 try {
                     IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
                     xml = XDocument.Load(isoStream);
@@ -235,6 +238,7 @@ namespace AudioBookBeta
 
                     isoStream.Close();
                 } catch (Exception e) {
+                    
                     System.Diagnostics.Debug.WriteLine("Error loading XML file");
                 }
             }
@@ -252,6 +256,20 @@ namespace AudioBookBeta
             TimeSpan interval = new TimeSpan(0, 0, 30);
             BackgroundAudioPlayer.Instance.Position = BackgroundAudioPlayer.Instance.Position + interval;
             App.player.selectedBook.setPosition((int)BackgroundAudioPlayer.Instance.Position.TotalSeconds);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            this.bookPicker.ItemsSource = App.player.books;
+
+            loadXmlData();
+            timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+
+            updateUI();
         }
     }
 }

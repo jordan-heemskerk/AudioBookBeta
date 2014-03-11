@@ -89,6 +89,7 @@ namespace AudioBookBeta
                             if (books.Elements("Book").ElementAt(i).Attribute("title").Value == BookTitle)
                                 books.Elements("Book").ElementAt(i).SetAttributeValue("current_position", pos);
                         }
+                        isoStream.Close();
                     }
                 }
                 using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
@@ -97,6 +98,7 @@ namespace AudioBookBeta
                         new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
                     {
                         xml.Save(isoStream);
+                        isoStream.Close();
                     }
                 }
             }
@@ -113,7 +115,12 @@ namespace AudioBookBeta
                     IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
 
                     xml = XDocument.Load(isoStream);
-                    xml.Element("Books").Attribute("select").Value = this.BookTitle;
+                    XElement books = xml.Element("Books");
+                    if (books.Attribute("select") == null) {
+                        books.SetAttributeValue("select", BookTitle);
+                    } else {
+                        books.Attribute("select").Value = BookTitle;
+                    }
                     isoStream.Close();
                 }
                 catch (Exception fnf)
@@ -128,6 +135,7 @@ namespace AudioBookBeta
                     new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
                 {
                     xml.Save(isoStream);
+                    isoStream.Close();
                 }
             }
         }
@@ -145,33 +153,42 @@ namespace AudioBookBeta
             root.SetAttributeValue("title", BookTitle);
             root.SetAttributeValue("author", Author);
       
-            XDocument xml;
+            XDocument xml = null;
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                try
+                if (isoStore.FileExists("manifest.xml"))
                 {
-                    IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
+                    try
+                    {
+                        IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore);
 
-                    xml = XDocument.Load(isoStream);
-                    xml.Element("Books").Add(root);
-                    isoStream.Close();
+                        xml = XDocument.Load(isoStream);
+                        xml.Element("Books").Add(root);
+                        isoStream.Close();
+                    }
+                    catch (Exception fnf)
+                    {
+                        
+                    }
                 }
-                catch (Exception fnf)
+                else
                 {
                     var true_root = new XDocument();
                     var books = new XElement("Books");
                     books.Add(root);
                     true_root.Add(books);
-                        
+
                     xml = true_root;
                 }
             }
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                using (IsolatedStorageFileStream isoStream =
-                    new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
-                {
+                try {
+                    IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore);
                     xml.Save(isoStream);
+                    isoStream.Close();
+                } catch (Exception e) {
+
                 }
             }
         }
@@ -202,6 +219,7 @@ namespace AudioBookBeta
                         if (books.Elements("Book").ElementAt(i).Attribute("title").Value == BookTitle)
                             books.Elements("Book").ElementAt(i).Add(new XElement("File", filename));
                     }
+                    isoStream.Close();
                 }
             }
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
@@ -210,6 +228,7 @@ namespace AudioBookBeta
                     new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
                 {
                     xml.Save(isoStream);
+                    isoStream.Close();
                 }
             }
         }
