@@ -17,7 +17,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-          
+
             <shell:ApplicationBarIconButton IconUri="/Icons/close.png" Text="cancel" Click="CancelApplicationBarIconButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Icons/check.png" Text="save" Click="SaveApplicationBarIconButton_Click"/>
         </shell:ApplicationBar>
@@ -31,7 +31,11 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTag" Text="AudioBookBeta" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTag" Style="{StaticResource PhoneTextNormalStyle}">
+            	<Run Text="Clarible"/>
+            	<LineBreak/>
+            	<Run/>
+            </TextBlock>
             <TextBlock x:Name="PageName" Text="New Book" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
