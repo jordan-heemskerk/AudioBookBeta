@@ -31,11 +31,20 @@
 
         </Grid>
         <TextBlock Margin="12,0,0,0" TextWrapping="Wrap" Grid.Row="1" Height="382" Width="456" VerticalAlignment="Top" TextAlignment="Center">
-        Clarible Audiobook Reader<LineBreak/>
-        Windows Phone 8 <LineBreak/><LineBreak />
-            heemskerk-development@outlook.com <LineBreak /> <LineBreak />
-            Developed by Jordan Heemskerk <LineBreak/>
-            © 2014 Jordan Heemskerk <LineBreak/>
+        	<Run Text="Clarible Audiobook Reader"/>
+        	<LineBreak/>
+        	<Run Text=" Windows Phone 8 "/>
+        	<LineBreak/>
+        	<Run Text="Version 1.0.0.1"/>
+        	<LineBreak/>
+        	<LineBreak/>
+        	<Run Text=" heemskerk-development@outlook.com "/>
+        	<LineBreak/>
+        	<LineBreak/>
+        	<Run Text=" Developed by Jordan Heemskerk "/>
+        	<LineBreak/>
+        	<Run Text=" © 2014 Jordan Heemskerk "/>
+        	<LineBreak/>
         </TextBlock>
     </Grid>
 
