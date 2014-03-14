@@ -42,5 +42,6 @@ namespace AudioBookBeta
 
             NavigationService.Navigate(new Uri("/MainPage.xaml?reloadFromXml=true", UriKind.Relative));
         }
+
     }
 }

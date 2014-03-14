@@ -183,6 +183,13 @@ namespace AudioBookBeta
             UpdateUI();
         }
 
+        private Boolean validURL(string url)
+        {
+            if (url == null || url == "") return false;
+            if (url == "http://") return false;
+
+            return true;
+        }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
@@ -199,6 +206,12 @@ namespace AudioBookBeta
             // of the button that was clicked.
 
             string transferFileName = UrlTextBox.Text;
+
+            if (!validURL(transferFileName))
+            {
+                //TODO: show error
+                return;
+            }
 
             Uri transferUri = new Uri(Uri.EscapeUriString(transferFileName), UriKind.RelativeOrAbsolute);
 
