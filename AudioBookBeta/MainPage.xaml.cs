@@ -40,14 +40,14 @@ namespace AudioBookBeta
 
             this.bookPicker.ItemsSource = App.player.books;
 
-           /* loadXmlData();
+            loadXmlData();
 
             timer = new DispatcherTimer { Interval = new TimeSpan(0,0,1) };
             timer.Tick += timer_Tick;
             timer.Start();
 
 
-            updateUI();*/
+            updateUI();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
@@ -263,7 +263,15 @@ namespace AudioBookBeta
             base.OnNavigatedFrom(e);
             this.bookPicker.ItemsSource = App.player.books;
 
-            loadXmlData();
+            string msg;
+            Boolean reloadXml = false;
+            if(NavigationContext.QueryString.TryGetValue("reloadFromXml", out msg) )
+            {
+                if (msg == "true") reloadXml = true;
+            }
+
+            if (reloadXml) loadXmlData();
+
             timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
             timer.Tick += timer_Tick;
             timer.Start();
@@ -271,5 +279,6 @@ namespace AudioBookBeta
 
             updateUI();
         }
+
     }
 }
