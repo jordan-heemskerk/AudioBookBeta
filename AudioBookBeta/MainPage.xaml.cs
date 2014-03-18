@@ -82,6 +82,7 @@ namespace AudioBookBeta
 
         void timer_Tick(object sender, EventArgs e)
         {
+            if (BackgroundAudioPlayer.Instance.Track == null) return;
             CurrentFileText.Text = BackgroundAudioPlayer.Instance.Track.Title;
             CurrentPositionText.Text = BackgroundAudioPlayer.Instance.Position.ToString("hh\\:mm\\:ss");
             RemainingTimeText.Text = "-" + (BackgroundAudioPlayer.Instance.Track.Duration - BackgroundAudioPlayer.Instance.Position).ToString("hh\\:mm\\:ss");
