@@ -52,7 +52,6 @@ namespace AudioBookPlaybackAgent
             switch (playState)
             {
                 case PlayState.TrackEnded:
-                    player.Track = GetPreviousTrack();
                     break;
                 case PlayState.TrackReady:
                    // player.Play();
