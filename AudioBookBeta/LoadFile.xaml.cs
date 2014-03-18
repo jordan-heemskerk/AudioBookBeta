@@ -221,6 +221,9 @@ namespace AudioBookBeta
             // be transferred.
             BackgroundTransferRequest transferRequest = new BackgroundTransferRequest(transferUri);
 
+            transferRequest.TransferStatusChanged += new EventHandler<BackgroundTransferEventArgs>(transfer_TransferStatusChanged);
+            transferRequest.TransferProgressChanged += new EventHandler<BackgroundTransferEventArgs>(transfer_TransferProgressChanged);
+
             // Set the transfer method. GET and POST are supported.
             transferRequest.Method = "GET";
 
@@ -265,6 +268,8 @@ namespace AudioBookBeta
             {
                 MessageBox.Show("Unable to add background transfer request.");
             }
+
+            
 
             UpdateUI();
 
