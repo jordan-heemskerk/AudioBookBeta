@@ -188,6 +188,10 @@ namespace AudioBookBeta
             if (url == null || url == "") return false;
             if (url == "http://") return false;
 
+            Uri uriResult;
+            bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+            if (!result) return false;
+
             return true;
         }
 
@@ -209,7 +213,7 @@ namespace AudioBookBeta
 
             if (!validURL(transferFileName))
             {
-                //TODO: show error
+                MessageBox.Show("Invalid URL");
                 return;
             }
 
