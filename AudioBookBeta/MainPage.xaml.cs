@@ -28,6 +28,8 @@ namespace AudioBookBeta
         // Constructor
         public MainPage()
         {
+            BackgroundAudioPlayer.Instance.Play();
+            BackgroundAudioPlayer.Instance.Pause();
             InitializeComponent();
             Boolean found = false;
             
