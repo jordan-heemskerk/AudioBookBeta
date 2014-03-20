@@ -183,7 +183,9 @@ namespace AudioBookBeta
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
-           
+            //do nothing if there is no file available
+            if (App.player.selectedBook.files.Count <= 0) return;
+
             if (PlayState.Playing == BackgroundAudioPlayer.Instance.PlayerState)
             {
                 App.player.selectedBook.setPosition((int)BackgroundAudioPlayer.Instance.Position.TotalSeconds);
@@ -249,6 +251,8 @@ namespace AudioBookBeta
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
+            //do nothing if there is no file available
+            if (App.player.selectedBook.files.Count <= 0) return;
             TimeSpan interval = new TimeSpan(0,0,30);
             BackgroundAudioPlayer.Instance.Position = BackgroundAudioPlayer.Instance.Position - interval;
             App.player.selectedBook.setPosition((int)BackgroundAudioPlayer.Instance.Position.TotalSeconds);
@@ -256,6 +260,8 @@ namespace AudioBookBeta
 
         private void ForwardButton_Click(object sender, RoutedEventArgs e)
         {
+            //do nothing if there is no file available
+            if (App.player.selectedBook.files.Count <= 0) return;
             TimeSpan interval = new TimeSpan(0, 0, 30);
             BackgroundAudioPlayer.Instance.Position = BackgroundAudioPlayer.Instance.Position + interval;
             App.player.selectedBook.setPosition((int)BackgroundAudioPlayer.Instance.Position.TotalSeconds);
