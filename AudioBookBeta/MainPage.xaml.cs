@@ -28,8 +28,20 @@ namespace AudioBookBeta
         // Constructor
         public MainPage()
         {
-            BackgroundAudioPlayer.Instance.Play();
-            BackgroundAudioPlayer.Instance.Pause();
+            Boolean resetAudio = false;
+            try
+            {
+                if (!BackgroundAudioPlayer.Instance.Track.Tag.Contains("clarible")) resetAudio = true;
+            }
+            catch (Exception e)
+            {
+                //log a warning
+            }
+            if (resetAudio)
+            {
+                BackgroundAudioPlayer.Instance.Play();
+                BackgroundAudioPlayer.Instance.Pause();
+            }
             InitializeComponent();
             Boolean found = false;
             
@@ -43,7 +55,6 @@ namespace AudioBookBeta
             this.bookPicker.ItemsSource = App.player.books;
 
             loadXmlData();
-
             timer = new DispatcherTimer { Interval = new TimeSpan(0,0,1) };
             timer.Tick += timer_Tick;
             timer.Start();
@@ -139,6 +150,7 @@ namespace AudioBookBeta
                 
                 BackgroundAudioPlayer.Instance.Track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
                     App.player.selectedBook.BookTitle, App.player.selectedBook.Author, "", null);
+                BackgroundAudioPlayer.Instance.Track.Tag = "clarible://" + App.player.selectedBook.files.First();
                 BackgroundAudioPlayer.Instance.Position = new TimeSpan(0, 0, App.player.selectedBook.getPosition());
                 timer.Stop();
                 timer.Start();
