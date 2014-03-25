@@ -147,10 +147,13 @@ namespace AudioBookBeta
                     if (!isoStore.FileExists(App.player.selectedBook.files.First())) return;
                 }
                 BackgroundAudioPlayer.Instance.Pause();
-                
-                BackgroundAudioPlayer.Instance.Track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
+
+                AudioTrack track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
                     App.player.selectedBook.BookTitle, App.player.selectedBook.Author, "", null);
-                BackgroundAudioPlayer.Instance.Track.Tag = "clarible://" + App.player.selectedBook.files.First();
+                track.BeginEdit();
+                track.Tag = "clarible";
+                track.EndEdit();
+                BackgroundAudioPlayer.Instance.Track = track;
                 BackgroundAudioPlayer.Instance.Position = new TimeSpan(0, 0, App.player.selectedBook.getPosition());
                 timer.Stop();
                 timer.Start();
