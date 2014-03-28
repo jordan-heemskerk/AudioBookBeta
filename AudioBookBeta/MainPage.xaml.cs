@@ -92,13 +92,21 @@ namespace AudioBookBeta
         }
 
         
-
+        //updates the UI
         void timer_Tick(object sender, EventArgs e)
         {
             if (BackgroundAudioPlayer.Instance.Track == null) return;
+
+            //update current book title
             CurrentFileText.Text = BackgroundAudioPlayer.Instance.Track.Title;
-            CurrentPositionText.Text = BackgroundAudioPlayer.Instance.Position.ToString("hh\\:mm\\:ss");
-            RemainingTimeText.Text = "-" + (BackgroundAudioPlayer.Instance.Track.Duration - BackgroundAudioPlayer.Instance.Position).ToString("hh\\:mm\\:ss");
+
+            //update scrubber time stamps
+            TimeSpan pos = BackgroundAudioPlayer.Instance.Position;
+            TimeSpan delta = BackgroundAudioPlayer.Instance.Track.Duration - pos;
+            CurrentPositionText.Text = (pos.Days * 24 + pos.Hours).ToString("00") + pos.ToString("\\:mm\\:ss"); 
+            RemainingTimeText.Text = "-" + (delta.Days * 24 + delta.Hours).ToString("00") + delta.ToString("\\:mm\\:ss");
+
+            //update scrubber position
             PositionSlider.Maximum = BackgroundAudioPlayer.Instance.Track.Duration.TotalSeconds;
             PositionSlider.Minimum = 0;
             PositionSlider.Value = BackgroundAudioPlayer.Instance.Position.TotalSeconds;
