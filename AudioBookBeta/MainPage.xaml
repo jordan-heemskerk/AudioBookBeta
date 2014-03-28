@@ -40,6 +40,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Delete selected book" Click="DeleteApplicationBarMenuItem_Click"/>
                 <shell:ApplicationBarMenuItem Text="About" Click="AboutApplicationBarMenuItem_Click"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton IconUri="/Icons/edit.png" Text="Edit Book" Click="EditBookApplicationBarIconButton_Click"/>

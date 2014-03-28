@@ -193,6 +193,60 @@ namespace AudioBookBeta
             }
         }
 
+        public void delete()
+        {
+            List<string> files_to_delete = new List<string>();
+
+            //Remove from xml file
+            XDocument xml;
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("manifest.xml", FileMode.Open, isoStore))
+                {
+                    xml = XDocument.Load(isoStream);
+                    XElement books = xml.Element("Books");
+                    for (int i = 0; i < books.Elements("Book").Count(); i++)
+                    {
+                        if (books.Elements("Book").ElementAt(i).Attribute("title").Value == BookTitle) {
+                            for (int j = 0; j < books.Elements("Book").ElementAt(i).Elements("File").Count(); j++) {
+                                files_to_delete.Add( books.Elements("Book").ElementAt(i).Elements("File").ElementAt(j).Value);
+                            }
+                            books.Elements("Book").ElementAt(i).Remove();
+                        }
+                    }
+                    isoStream.Close();
+                }
+            }
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isoStream =
+                    new IsolatedStorageFileStream("manifest.xml", FileMode.Create, isoStore))
+                {
+                    xml.Save(isoStream);
+                    isoStream.Close();
+                }
+            }
+
+            //delete files
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                foreach (string filename in files_to_delete)
+                {
+                    if (isoStore.FileExists(filename))
+                    {
+                        isoStore.DeleteFile(filename);
+                    }
+                }
+            }
+
+
+            //Remove from current list
+            App.player.books.RemoveAt(App.player.selectedBookIndex);
+
+
+
+        }
+
         public void addFile (string filename, Boolean newFile) 
         {
             if (files == null)

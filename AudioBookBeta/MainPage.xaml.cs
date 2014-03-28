@@ -67,6 +67,7 @@ namespace AudioBookBeta
 
         void PosSliderDown(object sender, EventArgs e)
         {
+            if (BackgroundAudioPlayer.Instance == null || BackgroundAudioPlayer.Instance.Track == null) return;
             if (BackgroundAudioPlayer.Instance.PlayerState == PlayState.Playing) shouldResume = true;
             BackgroundAudioPlayer.Instance.Pause();
             timer.Stop();
@@ -74,6 +75,7 @@ namespace AudioBookBeta
 
         void PosSliderDelta(object sender, EventArgs e)
         {
+            if (BackgroundAudioPlayer.Instance == null || BackgroundAudioPlayer.Instance.Track == null) return;
             TimeSpan delta = new TimeSpan(0, 0, (int)PositionSlider.Value) ;
             CurrentPositionText.Text = delta.ToString("hh\\:mm\\:ss");
             RemainingTimeText.Text = "-" + (BackgroundAudioPlayer.Instance.Track.Duration - delta).ToString("hh\\:mm\\:ss");
@@ -82,7 +84,7 @@ namespace AudioBookBeta
 
         void PosSliderUp(object sender, EventArgs e)
         {
-            
+            if (BackgroundAudioPlayer.Instance == null || BackgroundAudioPlayer.Instance.Track == null) return;
             BackgroundAudioPlayer.Instance.Position = new TimeSpan(0, 0, (int)PositionSlider.Value);
             App.player.selectedBook.setPosition((int)BackgroundAudioPlayer.Instance.Position.TotalSeconds);
            
@@ -95,7 +97,21 @@ namespace AudioBookBeta
         //updates the UI
         void timer_Tick(object sender, EventArgs e)
         {
-            if (BackgroundAudioPlayer.Instance.Track == null) return;
+            if (BackgroundAudioPlayer.Instance.Track == null)
+            {
+                //update current book title
+                CurrentFileText.Text = "";
+
+                //update scrubber time stamps
+                CurrentPositionText.Text = "";
+                RemainingTimeText.Text = "";
+
+                //update scrubber position
+                PositionSlider.Maximum = 10;
+                PositionSlider.Minimum = 0;
+                PositionSlider.Value = 0;
+                return;
+            }
 
             //update current book title
             CurrentFileText.Text = BackgroundAudioPlayer.Instance.Track.Title;
@@ -128,6 +144,25 @@ namespace AudioBookBeta
                 NavigationService.Navigate(new Uri("/LoadFile.xaml", UriKind.Relative));
             }
             
+        }
+
+        private void DeleteApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Book: " + App.player.selectedBook.BookTitle + " will be deleted. Are you sure?", "Clarible", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+            else
+            {
+                App.player.selectedBook.delete();
+                updateUI();
+                BackgroundAudioPlayer.Instance.Track = null;
+                timer.Start();
+
+            }
+
+
         }
 
         private void AboutApplicationBarMenuItem_Click(object sender, EventArgs e)
@@ -177,10 +212,16 @@ namespace AudioBookBeta
 
         private void updateUI()
         {
+
+
             if (bookPicker.SelectedIndex > -1)
             {
                 this.AuthorText.Text = App.player.books.ElementAt(bookPicker.SelectedIndex).Author;
 
+            }
+            else
+            {
+                AuthorText.Text = "";
             }
 
 
