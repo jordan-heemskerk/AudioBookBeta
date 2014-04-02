@@ -191,12 +191,12 @@ namespace AudioBookBeta
                 }
 
 
-                if (BackgroundAudioPlayer.Instance.Track != null && "clarible@" + App.player.selectedBook.files.First() == BackgroundAudioPlayer.Instance.Track.Tag) return;
+                if (BackgroundAudioPlayer.Instance.Track != null &&  BackgroundAudioPlayer.Instance.Track.Tag.Contains(App.player.selectedBook.files.First())) return;
                 BackgroundAudioPlayer.Instance.Pause();
                 AudioTrack track = new AudioTrack(new Uri(App.player.selectedBook.files.First(), UriKind.Relative),
                     App.player.selectedBook.BookTitle, App.player.selectedBook.Author, "", null);
                 track.BeginEdit();
-                track.Tag = "clarible@" + App.player.selectedBook.files.First();
+                track.Tag = "clarible@" + App.player.selectedBook.files.First() + "@" + App.player.selectedBook.BookTitle;
                 track.EndEdit();
                 BackgroundAudioPlayer.Instance.Track = track;
                 BackgroundAudioPlayer.Instance.Position = new TimeSpan(0, 0, App.player.selectedBook.getPosition());
