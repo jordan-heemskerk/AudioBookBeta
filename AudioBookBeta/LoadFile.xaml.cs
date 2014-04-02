@@ -142,16 +142,9 @@ namespace AudioBookBeta
                     break;
 
 
-                case TransferStatus.WaitingForExternalPower:
-                    WaitingForExternalPower = true;
-                    break;
 
                 case TransferStatus.WaitingForExternalPowerDueToBatterySaverMode:
                     WaitingForExternalPowerDueToBatterySaverMode = true;
-                    break;
-
-                case TransferStatus.WaitingForNonVoiceBlockingNetwork:
-                    WaitingForNonVoiceBlockingNetwork = true;
                     break;
 
                 case TransferStatus.WaitingForWiFi:
