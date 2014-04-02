@@ -112,11 +112,12 @@ namespace AudioBookBeta
                         // removed by the system.
                         RemoveTransferRequest(transfer.RequestId);
 
+                        string filename = transfer.Tag.Substring(transfer.Tag.LastIndexOf("#") + 1);
+
                         // In this example, the downloaded file is moved into the root
                         // Isolated Storage directory
                         using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
                         {
-                            string filename = transfer.Tag;
                             if (isoStore.FileExists(filename))
                             {
                                 isoStore.DeleteFile(filename);
@@ -125,7 +126,7 @@ namespace AudioBookBeta
                         }
 
                         
-                        App.player.selectedBook.addFile(transfer.Tag, true);
+                        App.player.selectedBook.addFile(filename, true);
 
                     }
                     else
@@ -188,6 +189,16 @@ namespace AudioBookBeta
             return true;
         }
 
+        private string createUniqueFilename(string url)
+        {
+            string file = url.Substring(url.LastIndexOf("/") + 1);
+            string ext = file.Substring(file.LastIndexOf(".") + 1);
+            string toHash = url + DateTime.UtcNow; //combine URL and datetime
+            int hash = toHash.GetHashCode(); //hash it
+
+            return hash + "." + ext; //{hash}.{ext} => like abcdef1234567890.mp3 
+        }
+
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             // Check to see if the maximum number of requests per app has been exceeded.
@@ -226,13 +237,13 @@ namespace AudioBookBeta
 
             // Get the file name from the end of the transfer URI and create a local URI 
             // in the "transfers" directory in isolated storage.
-            string downloadFile = transferFileName.Substring(transferFileName.LastIndexOf("/") + 1);
+            string downloadFile = createUniqueFilename(transferFileName);
             Uri downloadUri = new Uri("shared/transfers/" + downloadFile, UriKind.RelativeOrAbsolute);
             transferRequest.DownloadLocation = downloadUri;
 
             // Pass custom data with the Tag property. In this example, the friendly name
             // is passed.
-            transferRequest.Tag = downloadFile;
+            transferRequest.Tag = transferFileName.Substring(transferFileName.LastIndexOf("/") + 1) + "#" + downloadFile;
             
             
 
