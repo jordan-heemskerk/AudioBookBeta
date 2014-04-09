@@ -244,8 +244,8 @@ namespace AudioBookBeta
             // Pass custom data with the Tag property. In this example, the friendly name
             // is passed.
             transferRequest.Tag = transferFileName.Substring(transferFileName.LastIndexOf("/") + 1) + "#" + downloadFile;
-
-            transferRequest.TransferPreferences = TransferPreferences.AllowBattery;
+            
+            
 
             // If the Wi-Fi-only check box is not checked, then set the TransferPreferences
             // to allow transfers over a cellular connection.
