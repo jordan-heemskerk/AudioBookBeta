@@ -155,9 +155,9 @@ namespace AudioBookBeta
             }
             else
             {
+                BackgroundAudioPlayer.Instance.Track = null;
                 App.player.selectedBook.delete();
                 updateUI();
-                BackgroundAudioPlayer.Instance.Track = null;
                 timer.Start();
 
             }
@@ -186,8 +186,11 @@ namespace AudioBookBeta
             {
                 using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    if (App.player.selectedBook.files.Count <= 0) return;
-                    if (!isoStore.FileExists(App.player.selectedBook.files.First())) return;
+                    if (App.player.selectedBook.files.Count <= 0 || !isoStore.FileExists(App.player.selectedBook.files.First()))
+                    {
+                        BackgroundAudioPlayer.Instance.Track = null; //remove currently queued track
+                         return;
+                    }
                 }
 
 
