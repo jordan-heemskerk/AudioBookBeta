@@ -34,10 +34,7 @@ namespace AudioBookBeta
 
         public String Tag
         {
-            get {
-                //is of form "displayname.mp3#hashedfilename.mp3"
-                return _Tag.Substring(0, _Tag.LastIndexOf("#"));
-            }
+            get { return _Tag; }
             set
             {
                 _Tag = value;
