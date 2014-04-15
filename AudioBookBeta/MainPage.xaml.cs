@@ -188,7 +188,6 @@ namespace AudioBookBeta
                 {
                     if (App.player.selectedBook.files.Count <= 0 || !isoStore.FileExists(App.player.selectedBook.files.First()))
                     {
-                        BackgroundAudioPlayer.Instance.Track = null; //remove currently queued track
                          return;
                     }
                 }
